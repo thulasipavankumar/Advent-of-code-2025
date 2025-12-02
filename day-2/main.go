@@ -42,26 +42,37 @@ func isNumMirrorPalindrome(num int) bool {
 func dividePartsAndCheck(num int) bool {
 	s := strconv.Itoa(num)
 	mid := len(s) / 2
-	return s[:mid] == s[mid:]
+	parts := []string{s[:mid], s[mid:]}
+	return checkIfSliceHasEqualValues(parts)
 
 }
 func dividePartsAndCheck2(num int) bool {
 	var equalParts bool = false
 	s := splitNumberAll(num)
 	for _, group := range s {
-		first := group[0]
-		for _, v := range group[1:] {
-			if v != first {
-				equalParts = false
-				break
-			} else {
-				equalParts = true
-			}
-		}
+
+		equalParts = checkIfSliceHasEqualValues(group)
+
 		if equalParts {
 			break
 		}
 
+	}
+	return equalParts
+}
+func checkIfSliceHasEqualValues(input []string) bool {
+	equalParts := false
+	if len(input) <= 1 {
+		return false
+	}
+	first := input[0]
+	for _, v := range input[1:] {
+		if v != first {
+			equalParts = false
+			break
+		} else {
+			equalParts = true
+		}
 	}
 	return equalParts
 }
@@ -76,7 +87,6 @@ func splitNumberAll(n int) [][]string {
 		if L%size != 0 {
 			continue
 		}
-
 		parts := []string{}
 		for i := 0; i < L; i += size {
 			parts = append(parts, s[i:i+size])
