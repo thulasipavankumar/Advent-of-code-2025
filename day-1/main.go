@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/thulasipavankumar/Advent-of-code-2025/util"
@@ -9,11 +8,38 @@ import (
 
 const FILE_PATH = "input.txt"
 
-func main() {
+func part2(lines []string) (count int) {
+	var dail int = 50
+	var mem int = 50
+
+	for _, line := range lines {
+		letter := line[0]
+		number, _ := strconv.Atoi(line[1:])
+		count += (number / 100)
+		number %= 100
+		println(line, number, count)
+		if letter == 'L' {
+			number *= -1
+		}
+		dail += number
+		if dail < -99 {
+			dail += 100
+			count += (dail / 100)
+			dail = (dail / 100) + 100
+
+		} else if dail > 99 {
+			dail = (dail / 100) - 100
+			count += (dail / 100)
+		}
+	}
+	count += part1(lines)
+	return count
+
+}
+func part1(lines []string) (count int) {
 	var number int
 	var dail int = 50
-	var count int = 0
-	for _, line := range util.GetFileContent(FILE_PATH) {
+	for _, line := range lines {
 		letter := line[0]
 		number, _ = strconv.Atoi(line[1:])
 		number %= 100
@@ -31,8 +57,11 @@ func main() {
 			count++
 		}
 
-		fmt.Println("dail: ", dail)
-
 	}
-	println(count)
+	return
+
+}
+func main() {
+
+	println(part2(util.GetFileContent(FILE_PATH)))
 }
