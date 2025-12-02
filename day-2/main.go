@@ -11,7 +11,7 @@ import (
 // 6461988558
 const FILE_PATH = "input.txt"
 
-func part2(lines []string) (count int) {
+func part2(input [][2]int) (count int) {
 
 	return
 }
@@ -22,20 +22,21 @@ func part1(input [][2]int) (count int) {
 		//fmt.Printf("Index %d: left=%d, right=%d\n", index, pair[0], pair[1])
 
 		for i := pair[0]; i <= pair[1]; i++ {
-			if isNumPalindrome(i) {
+			if isNumMirrorPalindrome(i) {
 				count += i
+			} else {
+				//println("not equal parts", i)
 			}
 		}
-		println(count)
 	}
 
 	return
 }
-func isNumPalindrome(num int) bool {
-	if num < 10 || len(strconv.Itoa(num))%2 != 0 {
+func isNumMirrorPalindrome(num int) bool {
+	if num < 10 {
 		return false
 	} else {
-		return dividePartsAndCheck(num)
+		return dividePartsAndCheck2(num)
 	}
 }
 func dividePartsAndCheck(num int) bool {
@@ -44,10 +45,50 @@ func dividePartsAndCheck(num int) bool {
 	return s[:mid] == s[mid:]
 
 }
+func dividePartsAndCheck2(num int) bool {
+	var equalParts bool = false
+	s := splitNumberAll(num)
+	for _, group := range s {
+		first := group[0]
+		for _, v := range group[1:] {
+			if v != first {
+				equalParts = false
+				break
+			} else {
+				equalParts = true
+			}
+		}
+		if equalParts {
+			break
+		}
+
+	}
+	return equalParts
+}
+func splitNumberAll(n int) [][]string {
+	s := strconv.Itoa(n)
+	L := len(s)
+	half := L / 2
+
+	results := [][]string{}
+
+	for size := 1; size <= half; size++ {
+		if L%size != 0 {
+			continue
+		}
+
+		parts := []string{}
+		for i := 0; i < L; i += size {
+			parts = append(parts, s[i:i+size])
+		}
+		results = append(results, parts)
+	}
+
+	return results
+}
 func main() {
 	input := util.GetFileContent(FILE_PATH)
 	parts := strings.Split(input[0], ",")
-	println(len(parts))
 	sequenceInput := make([][2]int, 0)
 	for _, p := range parts {
 		lr := strings.SplitN(p, "-", 2)
