@@ -10,7 +10,6 @@ const FILE_PATH = "input.txt"
 
 func part2(lines []string) (count int) {
 	var dail int = 50
-	var mem int = 50
 
 	for _, line := range lines {
 		letter := line[0]
@@ -28,8 +27,9 @@ func part2(lines []string) (count int) {
 			dail = (dail / 100) + 100
 
 		} else if dail > 99 {
-			dail = (dail / 100) - 100
 			count += (dail / 100)
+			dail = (dail / 100) - 100
+
 		}
 	}
 	count += part1(lines)
