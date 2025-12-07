@@ -15,6 +15,10 @@ public class Sample {
         int[][] matrix = s.computeMatrixFromInput(stringList);
         var computed = s.computeNeighbour(matrix);
         s.printMatrix(computed);
+        
+       
+    }
+    public void part1(int[][] matrix,int[][] computed){
         int count = 0;
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
@@ -23,15 +27,15 @@ public class Sample {
                 }
             }
         }
-        System.out.println("\n" + count);
     }
 
     public void printMatrix(int[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
-            System.out.println("\n-------------------------------------------------------------------------------");
+            System.out.println("-----------------------------------------------------");
             for (int j = 0; j < matrix[i].length; j++) {
                 System.out.print(matrix[i][j] + "");
             }
+            System.out.println();
         }
     }
 
@@ -49,7 +53,7 @@ public class Sample {
     public int[][] computeNeighbour(int[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
-                matrix = hasNeighbour(matrix, i, j);
+                matrix = computeNeighbour(matrix, i, j);
             }
         }
         return matrix;
@@ -71,7 +75,7 @@ public class Sample {
         return i > 0;
     }
 
-    public int[][] hasNeighbour(int[][] matrix, int i, int j) {
+    public int[][] computeNeighbour(int[][] matrix, int i, int j) {
         if (matrix[i][j] <= 0) {
             return matrix;
         }
